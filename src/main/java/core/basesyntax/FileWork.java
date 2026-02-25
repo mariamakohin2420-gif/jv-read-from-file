@@ -7,16 +7,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class FileWork {
     public String[] readFromFile(String fileName) {
         List<String> result = new ArrayList<>();
 
-        // try-with-resources автоматично закриває потік
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] words = line.toLowerCase().split("[^a-z]+");
+
                 for (String word : words) {
                     if (!word.isEmpty() && word.startsWith("w")) {
                         result.add(word);
@@ -24,12 +23,11 @@ public class FileWork {
                 }
             }
         } catch (IOException e) {
-            // Повертаємо порожній масив, якщо файл не знайдено або неможливо прочитати
+            // Повертаємо порожній масив у разі помилки читання
             return new String[0];
         }
 
         Collections.sort(result);
         return result.toArray(new String[0]);
-
     }
 }
